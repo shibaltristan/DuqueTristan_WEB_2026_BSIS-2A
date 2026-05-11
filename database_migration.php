@@ -41,6 +41,24 @@ function checkAndUpdateSchema($conn) {
         $output[] = "✓ 'data' column already exists";
     }
     
+    // Check drivers table for GCash QR column
+    $sql = "DESCRIBE drivers";
+    $result = $conn->query($sql);
+    $columns = [];
+    while ($row = $result->fetch_assoc()) {
+        $columns[] = $row['Field'];
+    }
+
+    if (!in_array('qrcode_image', $columns)) {
+        if ($conn->query("ALTER TABLE drivers ADD COLUMN qrcode_image VARCHAR(255) NULL")) {
+            $output[] = "✓ Added 'qrcode_image' column to drivers";
+        } else {
+            $output[] = "✗ Failed to add 'qrcode_image' column to drivers: " . $conn->error;
+        }
+    } else {
+        $output[] = "✓ 'qrcode_image' column already exists in drivers";
+    }
+    
     return $output;
 }
 
