@@ -56,9 +56,6 @@ $tables = [
         license_number VARCHAR(50),
         vehicle_type VARCHAR(50),
         vehicle_plate VARCHAR(20),
-        profile_picture VARCHAR(255),
-        qrcode_image VARCHAR(255),
-        bio TEXT,
         status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
         rating DECIMAL(2,1) DEFAULT 0,
         FOREIGN KEY (user_id) REFERENCES users(id)
